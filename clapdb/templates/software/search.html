@@ -17,7 +17,7 @@
                 <label for="{{ form.software.id_for_label }}" class="col-form-label">Software Title</label>
             </div>
             <div class="col-auto form-floating">
-                <select id="{{ form.category.id_for_label }}" name="{{ form.category.name }}" class="form-control">
+                <select id="{{ form.category.id_for_label }}" name="{{ form.category.name }}" class="form-select">
                     {% for id,name in form.category.field.choices %}
                         <option value="{{ id }}" {% if id == s_category %}selected{% endif %}>{{ name }}</option>
                     {% endfor %}
