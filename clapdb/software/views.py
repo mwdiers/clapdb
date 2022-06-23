@@ -56,14 +56,14 @@ class CategoryListView(ListView):
 
     def get_queryset(self, *args, **kwargs):
         qs = super().get_queryset().select_related("developer").order_by(Lower("developer__name"), Lower("name")).filter(active=True)
-        if "category" in self.kwargs:
-            qs = qs.filter(category=self.kwargs["category"])
+        if "slug" in self.kwargs:
+            qs = qs.filter(category__slug=self.kwargs["slug"])
         return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if "category" in self.kwargs:
-            context["category"] = Category.objects.get(pk=self.kwargs["category"])
+        if "slug" in self.kwargs:
+            context["slug"] = Category.objects.get(slug=self.kwargs["slug"])
         return context
 
 
