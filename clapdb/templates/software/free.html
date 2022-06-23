@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+    {% with category=object %}
+        <h2 class="category_name">{{ category.name }}</h2>
+        {% regroup software_list by developer as developer_list %}
+        <ul class="developer_list">
+
+
+        {% if developer.url %}<p><a href="{{ developer.url }}">{{ developer.url }}</a></p>{% endif %}
+        {% if developer.notes %}<p>{{ developer.notes|safe }}</p>{% endif %}
+
+            <ul class="category_list">
+            {% for category, category_software_list in category_list %}
+                <li><h4 class="developer_category">{{ category.name }}</h4>
+                    <ul class="software_list">
+                        {% for title in category_software_list %}
+                            {% if title.active %}
+                            <li><strong>{% if title.url %}<a href="{{ title.url }}" class="developer_link link-info">{% endif %}{{ title.name }}{% if title.url %}</a>{% endif %}</strong>
+                                {% if title.version %}&mdash; {{ title.version }}{% endif %}
+                                {% if title.free %}&mdash; Free{% endif %}
+                                {% if title.notes %}<p>{{ title.notes|safe }}</p>{% endif %}
+                            </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+            </ul>
+    {% endwith %}
+{% endblock %}

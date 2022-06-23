@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load snippets_extras %}
+
+{% block content %}
+    <h2>CLAP Audio Software Database</h2>
+    {% get_snippet "home_info" %}
+
+    <h2>Recent Updates</h2>
+    <div class="table-responsive-sm">
+        <table class="table table-striped">
+            <thead>
+                <th>Date</th>
+                <th>Developer</th>
+                <th>Software</th>
+                <th>Version</th>
+                <th>Category</th>
+            </thead>
+        {% for item in recent_updates %}
+            <tr>
+                <td>{{ item.created|date:"d-M-Y" }}</td>
+                <td><a class="developer_link link-info" href="{% url "developer" item.developer.slug %}">{{ item.developer.name }}</a></td>
+                <td><a class="developer_link link-info" href="{% url "software" item.pk %}" >{{ item.name }}</a></td>
+                <td>{% if item.version %}{{ item.version }}{% endif %}</td>
+                <td>{{ item.category.name }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+{% endblock %}
+

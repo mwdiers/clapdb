@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+    <h2>Developers</h2>
+    <ul class="developer_list">
+    {% for developer in object_list %}
+        <li><a class="developer_link link-info" href="{% url "developer" developer.slug %}">{{ developer.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% endblock %}

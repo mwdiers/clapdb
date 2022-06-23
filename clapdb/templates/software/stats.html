@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+    <h2>Database Stats</h2>
+    <div class="table-responsive-sm">
+        <table class="table table-striped">
+            <tr>
+                <td>Developers</td>
+                <td>{{ developer_count }}</td>
+            </tr>
+            <tr>
+                <td>Software Titles</td>
+                <td>{{ software_count }}</td>
+            </tr>
+            <tr>
+                <td>Free Software Titles</td>
+                <td>{{ free_count }}</td>
+            </tr>
+        </table>
+
+        <h3>Summary by Category</h3>
+        <table class="table table-striped">
+            <thead>
+                <th>Category</th>
+                <th>Total Titles</th>
+            </thead>
+        {% for category in categories %}
+            <tr>
+                <td><a class="developer_link link-info" href="{% url 'software-list-category' category.slug %}">{{ category.name }}</a></td>
+                <td>{{ category.software_count }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+{% endblock %}

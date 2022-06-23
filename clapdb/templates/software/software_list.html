@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+    <h2>{{ category.name }}</h2>
+    {% if category.notes %}{{ category.notes|safe }}{% endif %}
+    <ul class="developer_list">
+        {% regroup object_list by developer as developer_list %}
+        {% for developer, software_list in developer_list %}
+            <li><h3 class="developer_name"><a class="developer_link link-info" href="{% url "developer" developer.pk %}">{{ developer.name }}</a></h3>
+                {% if developer.url %}<p><a href="{{ developer.url }}">{{ developer.url }}</a></p>{% endif %}
+                {% if developer.notes %}<p>{{ developer.notes|safe }}</p>{% endif %}
+                <ul class="software_list">
+                    {% for software in software_list %}
+                        <li><strong><a href="{% url "software" software.pk %}" class="developer_link link-info">{{ software.name }}</a></strong>
+                            {% if software.version %}&mdash; {{ software.version }}{% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
