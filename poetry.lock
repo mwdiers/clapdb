@@ -54,6 +54,17 @@ beautifulsoup4 = ">=4.8.0"
 Django = ">=2.2"
 
 [[package]]
+name = "django-clearcache"
+version = "1.2.1"
+description = "Allows you to clear Django cache via admin UI or manage.py command"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+django = ">=2.2"
+
+[[package]]
 name = "gunicorn"
 version = "20.1.0"
 description = "WSGI HTTP Server for UNIX"
@@ -121,7 +132,7 @@ python-versions = ">=2"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "fbdf7c9ab57de94e9e7e0dd9ba74b7e6333a2936618c0c270f358df3a5887503"
+content-hash = "30b5d75f000cb95d89645959a883f3db475fa6640608c7cc2a40f1a458d30c74"
 
 [metadata.files]
 asgiref = [
@@ -139,6 +150,10 @@ django = [
 django-bootstrap5 = [
     {file = "django-bootstrap5-21.3.tar.gz", hash = "sha256:35086341881780a44b2e27255894f6029fc5ef75e5a0ec8ebd82f47a5184fa73"},
     {file = "django_bootstrap5-21.3-py3-none-any.whl", hash = "sha256:c7a686420aa98692f15bd16e61a90dc6a3607e441a4dea37af840b83d4820cac"},
+]
+django-clearcache = [
+    {file = "django-clearcache-1.2.1.tar.gz", hash = "sha256:76ac5d7aebbc79e4f7064c591be1ca3fbb3d00c6b30c873f24f8330d9a7b5026"},
+    {file = "django_clearcache-1.2.1-py3-none-any.whl", hash = "sha256:0891a8171b8ec761983a077a945692407bbb6e00a09c50e0668b466339b779e4"},
 ]
 gunicorn = [
     {file = "gunicorn-20.1.0-py3-none-any.whl", hash = "sha256:9dcc4547dbb1cb284accfb15ab5667a0e5d1881cc443e0677b4882a4067a807e"},
