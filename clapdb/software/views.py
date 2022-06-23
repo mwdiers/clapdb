@@ -76,6 +76,8 @@ def get_developers():
 class SearchForm(forms.Form):
     developer = forms.CharField(label="developer", max_length=50, required=False)
     title = forms.CharField(label="software", max_length=50, required=False)
+    category = forms.ModelChoiceField(label="category", required=False, empty_label="All",
+                                      queryset=Category.objects.order_by("sequence"))
     free = forms.BooleanField(label="Free", required=False)
     mac = forms.BooleanField(label="Mac", required=False)
     windows = forms.BooleanField(label="Windows", required=False)
@@ -91,11 +93,13 @@ class SearchView(FormView):
         form = self.get_form()
         if form.is_valid():
             cleaned_data = form.cleaned_data
-            if cleaned_data["developer"] or cleaned_data["title"] or cleaned_data["free"]\
+            if cleaned_data["developer"] or cleaned_data["title"] or cleaned_data["category"] or cleaned_data["free"]\
                     or cleaned_data["mac"] or cleaned_data["windows"] or cleaned_data["linux"]:
                 software = Software.objects.filter(active=True)
                 if cleaned_data["developer"]:
                     software = software.filter(developer__name__icontains=cleaned_data["developer"])
+                if cleaned_data["category"]:
+                    software = software.filter(category=cleaned_data["category"])
                 if cleaned_data["title"]:
                     software = software.filter(name__icontains=cleaned_data["title"])
                 if cleaned_data["free"]:
@@ -116,6 +120,7 @@ class SearchView(FormView):
             self.extra_context = {"software": software,
                                   "search": True,
                                   "s_developer": cleaned_data["developer"],
+                                  "s_category": cleaned_data["category"].id if cleaned_data["category"] else None,
                                   "s_title": cleaned_data["title"],
                                   "s_free": cleaned_data["free"],
                                   "s_mac": cleaned_data["mac"],

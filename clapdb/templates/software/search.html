@@ -6,34 +6,46 @@
     <form action="{% url "search" %}" method="post">
         {% csrf_token %}
         {{ form.non_field_errors }}
-        <div class="row g-3 align-items-end">
-            <div class="col-auto form-floating">
-                <input id="{{ form.developer.id_for_label }}" name="{{ form.developer.name }}" class="form-control" placeholder="Name" value="{{ s_developer }}">
-                <label for="{{ form.developer.id_for_label }}" class="col-form-label">Developer </label>
+
+            <div class="row g-3 align-items-end">
+                <div class="col-auto form-floating">
+                    <input id="{{ form.developer.id_for_label }}" name="{{ form.developer.name }}" class="form-control" placeholder="Name" value="{{ s_developer }}">
+                    <label for="{{ form.developer.id_for_label }}" class="col-form-label">Developer </label>
+                </div>
+                <div class="col-auto form-floating">
+                    <input id="{{ form.software.id_for_label }}" name="{{ form.title.name }}" class="form-control" placeholder="Title" value="{{ s_title }}">
+                    <label for="{{ form.software.id_for_label }}" class="col-form-label">Software Title</label>
+                </div>
+                <div class="col-auto form-floating">
+                    <select id="{{ form.category.id_for_label }}" name="{{ form.category.name }}" class="form-control">
+                        {% for id,name in form.category.field.choices %}
+                            <option value="{{ id }}" {% if id == s_category %}selected{% endif %}>{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="{{ form.category.id_for_label }}" class="col-form-label">Category</label>
+                </div>
             </div>
-            <div class="col-auto form-floating">
-                <input id="{{ form.software.id_for_label }}" name="{{ form.title.name }}" class="form-control" placeholder="Title" value="{{ s_title }}">
-                <label for="{{ form.software.id_for_label }}" class="col-form-label">Software Title</label>
-            </div>
-            <div class="col-auto form-check">
-                <input id="{{ form.free.id_for_label }}" name="{{ form.free.name }}" class="btn-check" type="checkbox" autocomplete="off" {% if s_free %}checked{% endif %}>
-                <label for="{{ form.free.id_for_label }}" class="btn btn-outline-secondary">Free</label>
-            </div>
-            <div class="col-auto form-check">
-                <input id="{{ form.mac.id_for_label }}" name="{{ form.mac.name }}" class="btn-check" type="checkbox" autocomplete="off" {% if s_mac %}checked{% endif %}>
-                <label for="{{ form.mac.id_for_label }}" class="btn btn-outline-secondary">Mac</label>
-            </div>
-            <div class="col-auto form-check">
-                <input id="{{ form.windows.id_for_label }}" name="{{ form.windows.name }}" class="btn-check" type="checkbox" autocomplete="off" {% if s_windows %}checked{% endif %}>
-                <label for="{{ form.windows.id_for_label }}" class="btn btn-outline-secondary">Windows</label>
-            </div>
-            <div class="col-auto form-check">
-                <input id="{{ form.linux.id_for_label }}" name="{{ form.linux.name }}" class="btn-check" type="checkbox" autocomplete="off" {% if s_linux %}checked{% endif %}>
-                <label for="{{ form.linux.id_for_label }}" class="btn btn-outline-secondary">Linux</label>
-            </div>
-            <div class="col-auto">
-                <button type="submit" class="btn btn-primary">Search</button>
-            </div>
+            <div class="row mt-3 align-items-end">
+                <div class="col-auto form-check">
+                    <input id="{{ form.free.id_for_label }}" name="{{ form.free.name }}" class="btn-check" type="checkbox" autocomplete="off" {% if s_free %}checked{% endif %}>
+                    <label for="{{ form.free.id_for_label }}" class="btn btn-outline-secondary">Free</label>
+                </div>
+                <div class="col-auto form-check">
+                    <input id="{{ form.mac.id_for_label }}" name="{{ form.mac.name }}" class="btn-check" type="checkbox" autocomplete="off" {% if s_mac %}checked{% endif %}>
+                    <label for="{{ form.mac.id_for_label }}" class="btn btn-outline-secondary">Mac</label>
+                </div>
+                <div class="col-auto form-check">
+                    <input id="{{ form.windows.id_for_label }}" name="{{ form.windows.name }}" class="btn-check" type="checkbox" autocomplete="off" {% if s_windows %}checked{% endif %}>
+                    <label for="{{ form.windows.id_for_label }}" class="btn btn-outline-secondary">Windows</label>
+                </div>
+                <div class="col-auto form-check">
+                    <input id="{{ form.linux.id_for_label }}" name="{{ form.linux.name }}" class="btn-check" type="checkbox" autocomplete="off" {% if s_linux %}checked{% endif %}>
+                    <label for="{{ form.linux.id_for_label }}" class="btn btn-outline-secondary">Linux</label>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+
         </div>
     </form>
 

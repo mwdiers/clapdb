@@ -7,32 +7,37 @@
 
         {% if software.notes %}<p>{{ software.notes|safe }}</p>{% endif %}
 
-            <table class="table table-nonfluid">
-                <tr>
-                    <th scope="row">Developer</th>
-                    <td><a class="developer_link link-info" href="{% url "developer" software.developer.slug %}">{{ software.developer.name }}</a></td>
-                </tr>
-                {% if software.url %}<tr>
-                    <th scope="row">URL</th>
-                    <td><a href="{{ software.url }}" class="developer_link link-info">{{ software.url }}</a></td>
-                </tr>{% endif %}
-                <tr>
-                    <th scope="row">Category</th>
-                    <td><a class="developer_link link-info" href="{% url 'software-list-category' software.category.slug %}">{{ software.category.name }}</a></td>
-                </tr>
-                <tr>
-                    <th scope="row">Version</th>
-                    <td>{{ software.version }}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Operating Systems</th>
-                    <td>{{ osses }}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Free</th>
-                    <td>{% if software.free %}Yes{% else %}No{% endif %}</td>
-                </tr>
-            </table>
 
+        <table class="table table-nonfluid">
+            <tr>
+                <th scope="row">Developer</th>
+                <td><a class="developer_link link-info" href="{% url "developer" software.developer.slug %}">{{ software.developer.name }}</a></td>
+            </tr>
+            {% if software.url %}<tr>
+                <th scope="row">URL</th>
+                <td><a href="{{ software.url }}" class="developer_link link-info">{{ software.url }}</a></td>
+            </tr>{% endif %}
+            <tr>
+                <th scope="row">Category</th>
+                <td><a class="developer_link link-info" href="{% url 'software-list-category' software.category.slug %}">{{ software.category.name }}</a></td>
+            </tr>
+            <tr>
+                <th scope="row">Version</th>
+                <td>{{ software.version }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Operating Systems</th>
+                <td>{{ osses }}</td>
+            </tr>
+            <tr>
+                <th scope="row">Free</th>
+                <td>{% if software.free %}Yes{% else %}No{% endif %}</td>
+            </tr>
+        </table>
+
+        {% if software.developer.notes %}
+            <p><strong>Developer Notes:</strong></p>
+            {{ software.developer.notes|safe }}
+        {% endif %}
     {% endwith %}
 {% endblock %}
