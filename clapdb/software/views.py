@@ -6,9 +6,10 @@ from django.db.models import Count, Q
 from django.db.models.functions import Lower
 from django.utils import timezone as tz
 from django.http import JsonResponse
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django import forms
 from django.conf import settings
+from django.contrib.syndication.views import Feed
 from .models import Category, Software, Developer
 
 
@@ -142,3 +143,33 @@ class DeveloperDetailView(DetailView):
 
 class DeveloperListView(ListView):
     model = Developer
+
+
+class RecentUpdatesFeed(Feed):
+    title = "CLAP Audio Software Database Recent Updates"
+    link = "/"
+    description = "CLAP Audio Software Database Recent Updates"
+
+    def items(self):
+        return Software\
+            .objects.select_related("developer", "category")\
+            .filter(created__gte=tz.now()-tz.timedelta(days=settings.CDB_RECENT_UPDATES_DAYS))\
+            .filter(active=True)\
+            .order_by("-created")[:settings.CDB_RECENT_UPDATES_MAX]
+
+    def item_title(self, item):
+        return f"{item.created.strftime('%Y-%m-%d')} &emdash; {item.developer.name} {item.name}"
+
+    def item_description(self, item):
+        desc = f"""
+        <p>Developer: {item.developer.name}</p>
+        <p>Title: {item.name}</p>
+        <p>Version: {item.version}</p>
+        <p>URL: <a href='{item.url}'>{item.url}</a>
+        """
+        if item.notes:
+            desc = desc + f"\n<p>Notes:</p>{item.notes}"
+        return desc
+
+    def item_link(self, item):
+        return reverse('software', args=[item.pk])

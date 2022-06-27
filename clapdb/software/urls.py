@@ -9,4 +9,5 @@ urlpatterns = [
     path("category/<slug:slug>", views.CategoryListView.as_view(), name="software-list-category"),
     path("search/", views.SearchView.as_view(), name="search"),
     path("stats/", views.stats, name="stats"),
+    path("feed/", views.RecentUpdatesFeed()),
 ]
