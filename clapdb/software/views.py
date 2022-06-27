@@ -146,7 +146,7 @@ class DeveloperListView(ListView):
 
 
 class RecentUpdatesFeed(Feed):
-    title = "CLAP Audio Software Database Recent Updates"
+    title = "CLAPdb Recent Updates"
     link = "/"
     description = "CLAP Audio Software Database Recent Updates"
 
