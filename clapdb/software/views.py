@@ -158,7 +158,7 @@ class RecentUpdatesFeed(Feed):
             .order_by("-created")[:settings.CDB_RECENT_UPDATES_MAX]
 
     def item_title(self, item):
-        return f"{item.created.strftime('%Y-%m-%d')} &emdash; {item.developer.name} {item.name}"
+        return f"{item.created.strftime('%Y-%m-%d')} &mdash; {item.developer.name} {item.name}"
 
     def item_description(self, item):
         desc = f"""
