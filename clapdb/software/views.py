@@ -173,3 +173,9 @@ class RecentUpdatesFeed(Feed):
 
     def item_link(self, item):
         return reverse('software', args=[item.pk])
+
+    def item_pubdate(self, item):
+        return item.created
+
+    def item_updateddate(self, item):
+        return item.updated
