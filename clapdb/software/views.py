@@ -1,8 +1,10 @@
+import operator
+from functools import reduce
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.edit import FormView
 from django.views.generic.detail import DetailView
-from django.db.models import Count, Q
+from django.db.models import Count, Q, QuerySet
 from django.db.models.functions import Lower
 from django.utils import timezone as tz
 from django.http import JsonResponse
@@ -10,7 +12,7 @@ from django.urls import reverse_lazy, reverse
 from django import forms
 from django.conf import settings
 from django.contrib.syndication.views import Feed
-from .models import Category, Software, Developer
+from .models import Category, Software, Developer, Feature
 
 
 def home(request):
@@ -83,6 +85,8 @@ class SearchForm(forms.Form):
     mac = forms.BooleanField(label="Mac", required=False)
     windows = forms.BooleanField(label="Windows", required=False)
     linux = forms.BooleanField(label="Linux", required=False)
+    features = forms.MultipleChoiceField(choices=[(x.pk, x.name) for x in Feature.objects.all()],
+                                         widget = forms.CheckboxSelectMultiple, required=False)
 
 
 class SearchView(FormView):
@@ -94,23 +98,38 @@ class SearchView(FormView):
         form = self.get_form()
         if form.is_valid():
             cleaned_data = form.cleaned_data
-            if cleaned_data["developer"] or cleaned_data["title"] or cleaned_data["category"] or cleaned_data["free"]\
-                    or cleaned_data["mac"] or cleaned_data["windows"] or cleaned_data["linux"]:
+            # Check for form input
+            is_data = False
+            for k, v in cleaned_data.items():
+                if v:
+                    is_data = True
+
+            if is_data:
+                # Cannot use Q objects in this case because it leads to impossible WHERE clause when more then
+                # one feature is chosen.
                 software = Software.objects.filter(active=True)
+                if cleaned_data["features"]:
+                    for feature in Feature.objects.filter(pk__in=cleaned_data["features"]):
+                        software = software.filter(features=feature)
+
+                query = Q(active=True)
                 if cleaned_data["developer"]:
-                    software = software.filter(developer__name__icontains=cleaned_data["developer"])
+                    query &= Q(developer__name__icontains=cleaned_data["developer"])
                 if cleaned_data["category"]:
-                    software = software.filter(category=cleaned_data["category"])
+                    query &= Q(category=cleaned_data["category"])
                 if cleaned_data["title"]:
-                    software = software.filter(name__icontains=cleaned_data["title"])
+                    query &= Q(name__icontains=cleaned_data["title"])
                 if cleaned_data["free"]:
-                    software = software.filter(free=True)
+                    query &= Q(free=True)
                 if cleaned_data["mac"]:
-                    software = software.filter(mac=True)
+                    query &= Q(mac=True)
                 if cleaned_data["windows"]:
-                    software = software.filter(windows=True)
+                    query &= Q(windows=True)
                 if cleaned_data["linux"]:
-                    software = software.filter(linux=True)
+                    query &= Q(linux=True)
+
+                software = software.filter(query).distinct()
+
                 if software.count():
                     software = software.order_by(Lower("developer__name"), "category__sequence", Lower("name"))
                 else:
@@ -126,7 +145,8 @@ class SearchView(FormView):
                                   "s_free": cleaned_data["free"],
                                   "s_mac": cleaned_data["mac"],
                                   "s_windows": cleaned_data["windows"],
-                                  "s_linux": cleaned_data["linux"]}
+                                  "s_linux": cleaned_data["linux"],
+                                  "s_features": [int(x) for x in cleaned_data["features"]]}
 
         return super().get(request, *args, **kwargs)
 

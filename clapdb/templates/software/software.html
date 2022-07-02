@@ -8,7 +8,7 @@
         {% if software.notes %}<p>{{ software.notes|safe }}</p>{% endif %}
 
 
-        <table class="table table-nonfluid">
+        <table class="table table-nonfluid"  style="margin-left: 1em;">
             <tr>
                 <th scope="row">Developer</th>
                 <td><a class="developer_link link-info" href="{% url "developer" software.developer.slug %}">{{ software.developer.name }}</a></td>
@@ -35,8 +35,17 @@
             </tr>
         </table>
 
+        {% if software.features.count %}
+            <h4>Supported Features:</h4>
+            <table class="table table-nonfluid" style="margin-left: 1em;">
+            {% for feature in software.features.all %}
+                <tr><td>{{ feature.name }}</td></tr>
+            {% endfor %}
+            </table>
+        {% endif %}
+
         {% if software.developer.notes %}
-            <p><strong>Developer Notes:</strong></p>
+            <h4>Developer Notes:</h4>
             {{ software.developer.notes|safe }}
         {% endif %}
     {% endwith %}

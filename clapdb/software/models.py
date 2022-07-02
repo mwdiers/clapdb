@@ -35,6 +35,19 @@ class Developer(models.Model):
         ordering = ["name"]
 
 
+class Feature(models.Model):
+    name = models.CharField(max_length=50)
+    slug = models.SlugField(max_length=50)
+    description = models.TextField(null=True, blank=True)
+    sequence = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ["sequence", "name"]
+
+
 class Software(models.Model):
     name = models.CharField(max_length=50)
     category = models.ForeignKey(Category, blank=True, null=True, on_delete=models.SET_NULL)
@@ -42,6 +55,7 @@ class Software(models.Model):
     url = models.URLField(blank=True, null=True)
     version = models.CharField(max_length=20, blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
+    features = models.ManyToManyField(Feature, null=True, blank=True)
     free = models.BooleanField(default=False, blank=True, null=False)
     mac = models.BooleanField(default=True, blank = True, null=False)
     windows = models.BooleanField(default=True, blank=True, null=False)
@@ -56,4 +70,3 @@ class Software(models.Model):
     class Meta:
         ordering = ["name"]
         verbose_name_plural = "Software"
-

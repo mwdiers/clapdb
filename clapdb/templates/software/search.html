@@ -24,24 +24,40 @@
                 </select>
                 <label for="{{ form.category.id_for_label }}" class="col-form-label">Category</label>
             </div>
+            <div class="col-auto form-check">
+                <input id="{{ form.free.id_for_label }}" name="{{ form.free.name }}" class="form-check-input" type="checkbox" autocomplete="off" {% if s_free %}checked{% endif %}>
+                <label for="{{ form.free.id_for_label }}" class="form-check-label">Free</label>
+            </div>
         </div>
         <div class="row mt-3 align-items-end">
-            <div class="col-auto form-check">
-                <input id="{{ form.free.id_for_label }}" name="{{ form.free.name }}" class="btn-check" type="checkbox" autocomplete="off" {% if s_free %}checked{% endif %}>
-                <label for="{{ form.free.id_for_label }}" class="btn btn-outline-secondary">Free</label>
-            </div>
-            <div class="col-auto form-check">
-                <input id="{{ form.mac.id_for_label }}" name="{{ form.mac.name }}" class="btn-check" type="checkbox" autocomplete="off" {% if s_mac %}checked{% endif %}>
-                <label for="{{ form.mac.id_for_label }}" class="btn btn-outline-secondary">Mac</label>
-            </div>
-            <div class="col-auto form-check">
-                <input id="{{ form.windows.id_for_label }}" name="{{ form.windows.name }}" class="btn-check" type="checkbox" autocomplete="off" {% if s_windows %}checked{% endif %}>
-                <label for="{{ form.windows.id_for_label }}" class="btn btn-outline-secondary">Windows</label>
-            </div>
-            <div class="col-auto form-check">
-                <input id="{{ form.linux.id_for_label }}" name="{{ form.linux.name }}" class="btn-check" type="checkbox" autocomplete="off" {% if s_linux %}checked{% endif %}>
-                <label for="{{ form.linux.id_for_label }}" class="btn btn-outline-secondary">Linux</label>
-            </div>
+            <h5>Operating Systems:</h5>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <input id="{{ form.mac.id_for_label }}" name="{{ form.mac.name }}" class="form-check-input" type="checkbox" autocomplete="off" {% if s_mac %}checked{% endif %}>
+                    <label for="{{ form.mac.id_for_label }}" class="form-check-label">Mac</label>
+                </li>
+                <li class="list-group-item">
+                    <input id="{{ form.windows.id_for_label }}" name="{{ form.windows.name }}" class="form-check-input" type="checkbox" autocomplete="off" {% if s_windows %}checked{% endif %}>
+                    <label for="{{ form.windows.id_for_label }}" class="form-check-label">Windows</label>
+                </li>
+                <li class="list-group-item">
+                    <input id="{{ form.linux.id_for_label }}" name="{{ form.linux.name }}" class="form-check-input" type="checkbox" autocomplete="off" {% if s_linux %}checked{% endif %}>
+                    <label for="{{ form.linux.id_for_label }}" class="form-check-label">Linux</label>
+                </li>
+            </ul>
+        </div>
+        <div class="row mt-3 align-items-end">
+            <h5>Features:</h5>
+            <ul class="list-group">
+            {% for pk, choice in form.features.field.widget.choices %}
+                <li class="list-group-item">
+                <label for="id_features_{{ forloop.counter0 }}">
+                    <input id="id_features_{{ forloop.counter0 }}" name="features" type="checkbox" value="{{pk}}" {% if pk in s_features %}checked{% endif %} />
+                    {{ choice }}
+                </label>
+                </li>
+            {% endfor %}
+            </ul>
         </div>
         <div class="row mt-3 align-items-end">
             <div class="col-auto">
@@ -49,7 +65,6 @@
             </div>
         </div>
     </form>
-
     {% if search %}
     <div class="container mt-4">
         <h2>Search Results</h2>

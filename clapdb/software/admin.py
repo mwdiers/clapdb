@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Developer, Category, Software
+from django.db.models import ManyToManyField
+from django.forms import CheckboxSelectMultiple
+from .models import Developer, Category, Software, Feature
 
 
 class DeveloperAdmin(admin.ModelAdmin):
@@ -14,6 +16,11 @@ class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
 
 
+class FeatureAdmin(admin.ModelAdmin):
+    list_display = ("name",)
+    prepopulated_fields = {"slug": ("name",)}
+
+
 class SoftwareAdmin(admin.ModelAdmin):
     list_display = ("name", "version", "developer", "category", "url", "free", "active")
     list_editable = ("category", "version", "url", "free", "active")
@@ -21,8 +28,13 @@ class SoftwareAdmin(admin.ModelAdmin):
     search_fields = ("name", "developer__name", "free")
     save_as = True
     save_as_continue = False
+    formfield_overrides = {
+        ManyToManyField: {'widget': CheckboxSelectMultiple},
+    }
+
 
 
 admin.site.register(Developer, DeveloperAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Software, SoftwareAdmin)
+admin.site.register(Feature, FeatureAdmin)
