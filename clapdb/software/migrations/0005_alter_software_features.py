@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='software',
             name='features',
-            field=models.ManyToManyField(blank=True, null=True, to='software.feature'),
+            field=models.ManyToManyField(blank=True, null=True, to='software.features'),
         ),
     ]

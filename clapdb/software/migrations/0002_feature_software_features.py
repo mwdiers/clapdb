@@ -23,6 +23,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='software',
             name='features',
-            field=models.ManyToManyField(to='software.feature'),
+            field=models.ManyToManyField(to='software.features'),
         ),
     ]
