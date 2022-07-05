@@ -51,8 +51,8 @@
             <ul class="list-group">
             {% for pk, choice in form.features.field.widget.choices %}
                 <li class="list-group-item">
-                <label for="id_features_{{ forloop.counter0 }}">
-                    <input id="id_features_{{ forloop.counter0 }}" name="features" type="checkbox" value="{{pk}}" {% if pk in s_features %}checked{% endif %} />
+                <label for="id_features_{{ forloop.counter0 }}" class="form-check-label">
+                    <input id="id_features_{{ forloop.counter0 }}" class="form-check-input" name="features" type="checkbox" value="{{pk}}" {% if pk in s_features %}checked{% endif %} />
                     {{ choice }}
                 </label>
                 </li>

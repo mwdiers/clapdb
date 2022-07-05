@@ -43,14 +43,7 @@ class SoftwareDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        osses = []
-        if self.object.mac:
-            osses.append("Mac")
-        if self.object.windows:
-            osses.append("Windows")
-        if self.object.linux:
-            osses.append("Linux")
-        context["osses"] = ", ".join(osses)
+        context["osses"] = ", ".join(self.object.osses)
         return context
 
 
@@ -86,7 +79,7 @@ class SearchForm(forms.Form):
     windows = forms.BooleanField(label="Windows", required=False)
     linux = forms.BooleanField(label="Linux", required=False)
     features = forms.MultipleChoiceField(choices=[(x.pk, x.name) for x in Feature.objects.all()],
-                                         widget = forms.CheckboxSelectMultiple, required=False)
+                                         widget=forms.CheckboxSelectMultiple, required=False)
 
 
 class SearchView(FormView):

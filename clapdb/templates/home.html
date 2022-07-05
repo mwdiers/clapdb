@@ -14,6 +14,7 @@
                 <th>Developer</th>
                 <th>Software</th>
                 <th>Version</th>
+                <th>OS</th>
                 <th>Category</th>
             </thead>
         {% for item in recent_updates %}
@@ -22,6 +23,7 @@
                 <td><a class="developer_link link-info" href="{% url "developer" item.developer.slug %}">{{ item.developer.name }}</a></td>
                 <td><a class="developer_link link-info" href="{% url "software" item.pk %}" >{{ item.name }}</a></td>
                 <td>{% if item.version %}{{ item.version }}{% endif %}</td>
+                <td>{{ item.osses|join:", " }}</td>
                 <td>{{ item.category.name }}</td>
             </tr>
         {% endfor %}

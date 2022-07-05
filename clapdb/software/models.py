@@ -67,6 +67,17 @@ class Software(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def osses(self):
+        osses = []
+        if self.mac:
+            osses.append("Mac")
+        if self.windows:
+            osses.append("Windows")
+        if self.linux:
+            osses.append("Linux")
+        return osses
+
     class Meta:
         ordering = ["name"]
         verbose_name_plural = "Software"
