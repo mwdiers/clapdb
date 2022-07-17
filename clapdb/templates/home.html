@@ -24,7 +24,7 @@
                 <td><a class="developer_link link-info" href="{% url "software" item.pk %}" >{{ item.name }}</a></td>
                 <td>{% if item.version %}{{ item.version }}{% endif %}</td>
                 <td>{{ item.osses|join:", " }}</td>
-                <td>{{ item.category.name }}</td>
+                <td><a class="developer_link link-info" href="{% url "software-list-category" item.category.slug %}">{{ item.category.name }}</a></td>
             </tr>
         {% endfor %}
         </table>
